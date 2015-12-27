@@ -39,4 +39,6 @@
     <string name="team_logo_description">Team Logo</string>
     <string name="share_button_description">Share this match</string>
     <string name="widget_reload">Reload data</string>
+    <string name="widget_error_text_1">Unable to get data.</string>
+    <string name="widget_error_text_2">Tap to try again.</string>
 </resources>

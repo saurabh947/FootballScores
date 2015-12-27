@@ -52,5 +52,6 @@
                 android:resource="@xml/widget_config"/>
         </receiver>
 
+        <service android:name=".service.WidgetUpdateService" />
     </application>
 </manifest>

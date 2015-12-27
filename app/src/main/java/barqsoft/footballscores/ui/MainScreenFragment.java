@@ -23,7 +23,7 @@ import barqsoft.footballscores.service.myFetchService;
  * A placeholder fragment containing a simple view.
  */
 public class MainScreenFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    public barqsoft.footballscores.scoresAdapter scoresAdapter;
+    public scoresAdapter ScoresAdapter;
     public static final int SCORES_LOADER = 0;
     private String[] fragmentDate = new String[1];
     private int last_selected_item = -1;
@@ -46,17 +46,17 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         update_scores();
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         final ListView score_list = (ListView) rootView.findViewById(R.id.scores_list);
-        scoresAdapter = new scoresAdapter(getActivity(), null, 0);
-        score_list.setAdapter(scoresAdapter);
+        ScoresAdapter = new scoresAdapter(getActivity(), null, 0);
+        score_list.setAdapter(ScoresAdapter);
         getLoaderManager().initLoader(SCORES_LOADER, null, this);
-        scoresAdapter.detail_match_id = MainActivity.selected_match_id;
+        ScoresAdapter.detail_match_id = MainActivity.selected_match_id;
         score_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ScoresViewHolder selected = (ScoresViewHolder) view.getTag();
-                scoresAdapter.detail_match_id = selected.match_id;
+                ScoresAdapter.detail_match_id = selected.match_id;
                 MainActivity.selected_match_id = (int) selected.match_id;
-                scoresAdapter.notifyDataSetChanged();
+                ScoresAdapter.notifyDataSetChanged();
             }
         });
         return rootView;
@@ -70,29 +70,15 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        //Log.v(FetchScoreTask.LOG_TAG,"loader finished");
-        //cursor.moveToFirst();
-        /*
-        while (!cursor.isAfterLast())
-        {
-            Log.v(FetchScoreTask.LOG_TAG,cursor.getString(1));
-            cursor.moveToNext();
-        }
-        */
-
-        int i = 0;
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            i++;
             cursor.moveToNext();
         }
-        //Log.v(FetchScoreTask.LOG_TAG,"Loader query: " + String.valueOf(i));
-        scoresAdapter.swapCursor(cursor);
-        //scoresAdapter.notifyDataSetChanged();
+        ScoresAdapter.swapCursor(cursor);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
-        scoresAdapter.swapCursor(null);
+        ScoresAdapter.swapCursor(null);
     }
 }
