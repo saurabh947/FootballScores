@@ -2,6 +2,7 @@ package barqsoft.footballscores;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.List;
 
 /**
  * Created by yehya khaled on 2/26/2015.
@@ -67,9 +70,16 @@ public class scoresAdapter extends CursorAdapter {
             share_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //add Share Action
-                    context.startActivity(createShareForecastIntent(mHolder.home_name.getText() + " "
-                            + mHolder.score.getText() + " " + mHolder.away_name.getText() + " "));
+                    /**
+                     * Start sharing only after checking if intent handler activities exist.
+                     */
+                    Intent intent = createShareForecastIntent(mHolder.home_name.getText() + " "
+                            + mHolder.score.getText() + " " + mHolder.away_name.getText() + " ");
+                    List activities = context.getPackageManager()
+                            .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                    if (activities.size() > 0) {
+                        context.startActivity(intent);
+                    }
                 }
             });
         } else {
